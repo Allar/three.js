@@ -9106,17 +9106,17 @@
 		clone: function clone() {
 			/*
 			 // Handle primitives
-				 const parameters = this.parameters;
-				 if ( parameters !== undefined ) {
-				 const values = [];
-				 for ( const key in parameters ) {
-				 values.push( parameters[ key ] );
-				 }
-				 const geometry = Object.create( this.constructor.prototype );
+					 const parameters = this.parameters;
+					 if ( parameters !== undefined ) {
+					 const values = [];
+					 for ( const key in parameters ) {
+					 values.push( parameters[ key ] );
+					 }
+					 const geometry = Object.create( this.constructor.prototype );
 			 this.constructor.apply( geometry, values );
 			 return geometry;
-				 }
-				 return new this.constructor().copy( this );
+					 }
+					 return new this.constructor().copy( this );
 			 */
 			return new BufferGeometry().copy(this);
 		},
@@ -34016,15 +34016,15 @@
 			// TODO: delete this comment?
 			const distanceGeometry = new THREE.IcosahedronBufferGeometry( 1, 2 );
 			const distanceMaterial = new THREE.MeshBasicMaterial( { color: hexColor, fog: false, wireframe: true, opacity: 0.1, transparent: true } );
-			this.lightSphere = new THREE.Mesh( bulbGeometry, bulbMaterial );
+				this.lightSphere = new THREE.Mesh( bulbGeometry, bulbMaterial );
 			this.lightDistance = new THREE.Mesh( distanceGeometry, distanceMaterial );
-			const d = light.distance;
-			if ( d === 0.0 ) {
-				this.lightDistance.visible = false;
-			} else {
-				this.lightDistance.scale.set( d, d, d );
-			}
-			this.add( this.lightDistance );
+				const d = light.distance;
+				if ( d === 0.0 ) {
+					this.lightDistance.visible = false;
+				} else {
+					this.lightDistance.scale.set( d, d, d );
+				}
+				this.add( this.lightDistance );
 			*/
 
 
@@ -34046,12 +34046,12 @@
 			}
 			/*
 			const d = this.light.distance;
-				if ( d === 0.0 ) {
-					this.lightDistance.visible = false;
-				} else {
-					this.lightDistance.visible = true;
+					if ( d === 0.0 ) {
+						this.lightDistance.visible = false;
+					} else {
+						this.lightDistance.visible = true;
 				this.lightDistance.scale.set( d, d, d );
-				}
+					}
 			*/
 
 		};
@@ -34134,7 +34134,7 @@
 	var GridHelper = /*#__PURE__*/function (_LineSegments) {
 		_inheritsLoose(GridHelper, _LineSegments);
 
-		function GridHelper(size, divisions, color1, color2) {
+		function GridHelper(size, divisions, colorX, colorY, colorSubDivs) {
 			var _this;
 
 			if (size === void 0) {
@@ -34145,16 +34145,21 @@
 				divisions = 10;
 			}
 
-			if (color1 === void 0) {
-				color1 = 0x444444;
+			if (colorX === void 0) {
+				colorX = 0xff0000;
 			}
 
-			if (color2 === void 0) {
-				color2 = 0x888888;
+			if (colorY === void 0) {
+				colorY = 0x00ff00;
 			}
 
-			color1 = new Color(color1);
-			color2 = new Color(color2);
+			if (colorSubDivs === void 0) {
+				colorSubDivs = 0x999999;
+			}
+
+			colorX = new Color(colorX);
+			colorY = new Color(colorY);
+			colorSubDivs = new Color(colorSubDivs);
 			var center = divisions / 2;
 			var step = size / divisions;
 			var halfSize = size / 2;
@@ -34162,17 +34167,28 @@
 					colors = [];
 
 			for (var i = 0, j = 0, k = -halfSize; i <= divisions; i++, k += step) {
-				vertices.push(-halfSize, 0, k, halfSize, 0, k);
-				vertices.push(k, 0, -halfSize, k, 0, halfSize);
-				var color = i === center ? color1 : color2;
-				color.toArray(colors, j);
-				j += 3;
-				color.toArray(colors, j);
-				j += 3;
-				color.toArray(colors, j);
-				j += 3;
-				color.toArray(colors, j);
-				j += 3;
+				vertices.push(-halfSize, k, 0, halfSize, k, 0);
+				vertices.push(k, -halfSize, 0, k, halfSize, 0);
+
+				if (i === center) {
+					colorX.toArray(colors, j);
+					j += 3;
+					colorX.toArray(colors, j);
+					j += 3;
+					colorY.toArray(colors, j);
+					j += 3;
+					colorY.toArray(colors, j);
+					j += 3;
+				} else {
+					colorSubDivs.toArray(colors, j);
+					j += 3;
+					colorSubDivs.toArray(colors, j);
+					j += 3;
+					colorSubDivs.toArray(colors, j);
+					j += 3;
+					colorSubDivs.toArray(colors, j);
+					j += 3;
+				}
 			}
 
 			var geometry = new BufferGeometry();
@@ -34553,7 +34569,7 @@
 			1/___0/|
 			| 6__|_7
 			2/___3/
-				0: max.x, max.y, max.z
+					0: max.x, max.y, max.z
 			1: min.x, max.y, max.z
 			2: min.x, min.y, max.z
 			3: max.x, min.y, max.z

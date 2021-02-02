@@ -45183,28 +45183,46 @@ class HemisphereLightHelper extends Object3D {
 
 class GridHelper extends LineSegments {
 
-	constructor( size = 10, divisions = 10, color1 = 0x444444, color2 = 0x888888 ) {
+	constructor( size = 10, divisions = 10, colorX = 0xff0000, colorY = 0x00ff00, colorSubDivs = 0x999999 ) {
 
-		color1 = new Color( color1 );
-		color2 = new Color( color2 );
+		colorX = new Color( colorX );
+		colorY = new Color( colorY );
+		colorSubDivs = new Color(colorSubDivs);
 
 		const center = divisions / 2;
 		const step = size / divisions;
 		const halfSize = size / 2;
 
-		const vertices = [], colors = [];
+		const vertices = [],
+			colors = [];
 
 		for ( let i = 0, j = 0, k = - halfSize; i <= divisions; i ++, k += step ) {
 
-			vertices.push( - halfSize, 0, k, halfSize, 0, k );
-			vertices.push( k, 0, - halfSize, k, 0, halfSize );
+			vertices.push( - halfSize, k, 0, halfSize, k, 0 );
+			vertices.push( k, - halfSize, 0, k, halfSize, 0 );
 
-			const color = i === center ? color1 : color2;
+			if ( i === center ) {
+				colorX.toArray(colors, j);
+				j += 3;
+				colorX.toArray(colors, j);
+				j += 3;
+				colorY.toArray(colors, j);
+				j += 3;
+				colorY.toArray(colors, j);
+				j += 3;
 
-			color.toArray( colors, j ); j += 3;
-			color.toArray( colors, j ); j += 3;
-			color.toArray( colors, j ); j += 3;
-			color.toArray( colors, j ); j += 3;
+			} else {
+
+				colorSubDivs.toArray(colors, j);
+				j += 3;
+				colorSubDivs.toArray(colors, j);
+				j += 3;
+				colorSubDivs.toArray(colors, j);
+				j += 3;
+				colorSubDivs.toArray(colors, j);
+				j += 3;
+
+			}
 
 		}
 
@@ -45212,7 +45230,10 @@ class GridHelper extends LineSegments {
 		geometry.setAttribute( 'position', new Float32BufferAttribute( vertices, 3 ) );
 		geometry.setAttribute( 'color', new Float32BufferAttribute( colors, 3 ) );
 
-		const material = new LineBasicMaterial( { vertexColors: true, toneMapped: false } );
+		const material = new LineBasicMaterial( {
+			vertexColors: true,
+			toneMapped: false,
+		} );
 
 		super( geometry, material );
 
