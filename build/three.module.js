@@ -45187,7 +45187,7 @@ class GridHelper extends LineSegments {
 
 		colorX = new Color( colorX );
 		colorY = new Color( colorY );
-		colorSubDivs = new Color(colorSubDivs);
+		colorSubDivs = new Color( colorSubDivs );
 
 		const center = divisions / 2;
 		const step = size / divisions;
@@ -45202,24 +45202,25 @@ class GridHelper extends LineSegments {
 			vertices.push( k, - halfSize, 0, k, halfSize, 0 );
 
 			if ( i === center ) {
-				colorX.toArray(colors, j);
+
+				colorX.toArray( colors, j );
 				j += 3;
-				colorX.toArray(colors, j);
+				colorX.toArray( colors, j );
 				j += 3;
-				colorY.toArray(colors, j);
+				colorY.toArray( colors, j );
 				j += 3;
-				colorY.toArray(colors, j);
+				colorY.toArray( colors, j );
 				j += 3;
 
 			} else {
 
-				colorSubDivs.toArray(colors, j);
+				colorSubDivs.toArray( colors, j );
 				j += 3;
-				colorSubDivs.toArray(colors, j);
+				colorSubDivs.toArray( colors, j );
 				j += 3;
-				colorSubDivs.toArray(colors, j);
+				colorSubDivs.toArray( colors, j );
 				j += 3;
-				colorSubDivs.toArray(colors, j);
+				colorSubDivs.toArray( colors, j );
 				j += 3;
 
 			}
